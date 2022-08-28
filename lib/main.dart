@@ -1,6 +1,18 @@
 import 'package:flutter/material.dart';
+import 'package:login_user/profile.dart';
+import 'package:login_user/signUp.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_core/firebase_core.dart';
 
 Future<void> main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp(
+    options: const FirebaseOptions(
+        apiKey: "AIzaSyD6hUZM0_JZXHY4kIn6dD8kX_OmOMyaD5w",
+        appId: "1:533936968431:web:1ee7fa6d47894b9db5c11a",
+        messagingSenderId: "533936968431",
+        projectId: "flutter2022-17ba0"),
+  );
   runApp(const MyApp());
 }
 
@@ -20,7 +32,7 @@ class _MyAppState extends State<MyApp> {
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      home: const MyHomePage(title: '(' ')'),
+      home: const MyHomePage(title: ''),
     );
   }
 }
@@ -93,7 +105,37 @@ class _MyHomePageState extends State<MyHomePage> {
                                       side: const BorderSide(
                                           color: Colors.black)))),
                       child: const Text("Login"),
-                      onPressed: () async {})),
+                      onPressed: () async {
+                        String emailData = emailController.text;
+                        try {
+                          // ignore: unused_local_variable
+
+                          UserCredential userCredential = await FirebaseAuth
+                              .instance
+                              .signInWithEmailAndPassword(
+                                  email: emailData.toString(),
+                                  password: passController.text.toString());
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => profilePage()),
+                          );
+                        } on FirebaseAuthException catch (e) {
+                          if (e.code == 'user-not-found') {
+                            ScaffoldMessenger.of(context).showSnackBar(
+                                const SnackBar(
+                                    backgroundColor: Colors.red,
+                                    content:
+                                        Text('No user found for that email.')));
+                          } else if (e.code == 'wrong-password') {
+                            ScaffoldMessenger.of(context).showSnackBar(
+                                const SnackBar(
+                                    backgroundColor: Colors.red,
+                                    content: Text(
+                                        'Wrong password provided for that user.')));
+                          }
+                        }
+                      })),
             ],
           ),
           Row(
@@ -110,10 +152,15 @@ class _MyHomePageState extends State<MyHomePage> {
                             borderRadius: BorderRadius.circular(18.0),
                             side: const BorderSide(color: Colors.black)))),
                 child: const Text(
-                  "Sign Up",
+                  "Create New Account",
                   style: TextStyle(color: Colors.black),
                 ),
-                onPressed: () {},
+                onPressed: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => MyAppSignUp()),
+                  );
+                },
               )),
             ],
           ),
