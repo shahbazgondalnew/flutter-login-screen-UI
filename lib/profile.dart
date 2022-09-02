@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:login_user/main.dart';
@@ -13,6 +14,9 @@ class profilePage extends StatefulWidget {
 }
 
 class _profileState extends State<profilePage> {
+  var dpLink =
+      "https://firebasestorage.googleapis.com/v0/b/flutter2022-17ba0.appspot.com/o/dp.png?alt=media&token=60f6bc0b-1e27-4a79-b0c6-a54ff81beb0c";
+
   String name = "Loading...";
   String email = "Loading...";
   String city = "Loading...";
@@ -25,6 +29,16 @@ class _profileState extends State<profilePage> {
         child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
+              ClipRRect(
+                borderRadius: BorderRadius.circular(60),
+                child: CachedNetworkImage(
+                  width: 120,
+                  height: 120,
+                  fit: BoxFit.cover,
+                  imageUrl: dpLink,
+                  // ignore: prefer_const_constructors
+                ),
+              ),
               const SizedBox(
                 height: 10,
               ),

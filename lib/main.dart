@@ -53,6 +53,7 @@ class _MyHomePageState extends State<MyHomePage> {
   final showEmpty = SnackBar(content: Text('Imformation can not be empty'));
   final showLogin = SnackBar(content: Text('Login Suceed'));
   bool hide = true;
+
   @override
   Widget build(BuildContext context) {
     // This method is rerun every time setState is called, for instance as done
