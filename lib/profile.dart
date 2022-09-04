@@ -34,8 +34,10 @@ class _profileState extends State<profilePage> {
                 child: CachedNetworkImage(
                   width: 120,
                   height: 120,
+
                   fit: BoxFit.cover,
                   imageUrl: dpLink,
+
                   // ignore: prefer_const_constructors
                 ),
               ),
